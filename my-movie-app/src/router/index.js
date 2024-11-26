@@ -1,10 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
+
+// Views
 import Home from "@/views/Home.vue";
-import About from "@/views/About.vue";
+import Popular from "@/views/Popular.vue";
+import Search from "@/views/Search.vue";
+import Wishlist from "@/views/Wishlist.vue";
+import Signin from "@/views/Signin.vue";
+import MovieDetail from "@/views/MovieDetail.vue";
 
 const routes = [
-  { path: "/", component: Home },
-  { path: "/about", component: About },
+  { path: "/", name: "Home", component: Home },
+  { path: "/popular", name: "Popular", component: Popular },
+  { path: "/search", name: "Search", component: Search },
+  { path: "/wishlist", name: "Wishlist", component: Wishlist },
+  { path: "/signin", name: "Signin", component: Signin },
+  { path: "/movie/:id", name: "MovieDetail", component: MovieDetail }, // 영화 상세 페이지
 ];
 
 const router = createRouter({
