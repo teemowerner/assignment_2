@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .movie img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 8px;
+  }
+  
+  @media (min-width: 768px) {
+    .movie img {
+      max-width: 200px;
+    }
+  }
+  
