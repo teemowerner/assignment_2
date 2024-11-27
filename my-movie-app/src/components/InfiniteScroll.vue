@@ -21,14 +21,15 @@ export default {
   props: ["apiEndpoint"],
   data() {
     return {
-      movies: [],
-      page: 1,
-      loading: false,
+      movies: [], // 불러온 영화 데이터를 저장
+      page: 1, // 현재 페이지 번호
+      loading: false, // 로딩 상태
+      allMoviesFetched: false, // 모든 영화 데이터를 가져왔는지 여부
     };
   },
   methods: {
     async fetchMovies() {
-      if (this.loading) return;
+      if (this.loading || this.allMoviesFetched) return; // 이미 로딩 중이거나 모든 데이터를 가져온 경우 중단
       this.loading = true;
       try {
         const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -40,29 +41,39 @@ export default {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        if (data.results) {
-          this.movies.push(...data.results); // 기존 데이터에 추가
-          this.page++;
+        if (data.results && data.results.length > 0) {
+          this.movies.push(...data.results); // 기존 데이터에 새로운 데이터를 추가
+          this.page++; // 다음 페이지로 이동
+        } else {
+          this.allMoviesFetched = true; // 더 이상 가져올 데이터가 없음을 표시
         }
       } catch (error) {
         console.error("Error fetching movies:", error);
       } finally {
-        this.loading = false;
+        this.loading = false; // 로딩 상태 종료
       }
     },
     getPosterUrl(path) {
-      if (!path) {
-        return "/path/to/placeholder-image.jpg"; // 기본 이미지 경로 설정
+      return path
+        ? `https://image.tmdb.org/t/p/w500${path}`
+        : "/path/to/placeholder-image.jpg"; // 기본 이미지 경로 설정
+    },
+    handleScroll() {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      // 스크롤이 끝에 도달하면 새로운 데이터를 가져옴
+      if (scrollPosition >= documentHeight - 100) {
+        this.fetchMovies();
       }
-      return `https://image.tmdb.org/t/p/w500${path}`;
     },
   },
   mounted() {
-    this.fetchMovies();
-    window.addEventListener("scroll", this.handleScroll);
+    this.fetchMovies(); // 초기 데이터 로드
+    window.addEventListener("scroll", this.handleScroll); // 스크롤 이벤트 리스너 추가
   },
   beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll); // 컴포넌트가 언마운트되면 이벤트 리스너 제거
   },
 };
 </script>

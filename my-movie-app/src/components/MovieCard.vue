@@ -1,5 +1,6 @@
 <template>
-  <div class="movie-card">
+  <!-- 포스터가 없는 경우 렌더링하지 않음 -->
+  <div v-if="movie.poster_path" class="movie-card">
     <!-- 포스터 클릭 시 상세 페이지로 이동 -->
     <img
       :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"

@@ -31,7 +31,7 @@
         <button type="submit" class="login-button">LOGIN</button>
       </form>
       <p class="signup-link">
-        Don’t have an account? <a href="#">Sign up</a>
+        Don’t have an account? <router-link to="/signup">Sign up</router-link>
       </p>
     </div>
   </div>
