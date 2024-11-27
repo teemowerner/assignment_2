@@ -1,45 +1,29 @@
 <template>
   <div class="movie-list">
-    <div
-      v-for="movie in movies"
-      :key="movie.id"
-      class="movie-item"
-      @click="$router.push(`/movie/${movie.id}`)"
-    >
-      <img
-        :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
-        :alt="movie.title"
-      />
-      <h3>{{ movie.title }}</h3>
+    <h2>{{ title }}</h2>
+    <div class="movie-grid">
+      <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
     </div>
   </div>
 </template>
 
 <script>
+import MovieCard from "@/components/MovieCard.vue";
+
 export default {
   name: "MovieList",
-  props: {
-    movies: {
-      type: Array,
-      required: true,
-    },
-  },
+  components: { MovieCard },
+  props: ["title", "movies"],
 };
 </script>
 
-<style>
+<style scoped>
 .movie-list {
+  margin: 20px 0;
+}
+.movie-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-.movie-item {
-  cursor: pointer;
-  text-align: center;
-  width: 150px;
-}
-.movie-item img {
-  width: 100%;
-  border-radius: 8px;
 }
 </style>

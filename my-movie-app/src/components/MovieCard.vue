@@ -1,10 +1,17 @@
 <template>
   <div class="movie-card">
-    <img :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`" :alt="movie.title" />
+    <!-- 포스터 클릭 시 상세 페이지로 이동 -->
+    <img
+      :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
+      :alt="movie.title"
+      @click="goToDetails"
+      class="movie-poster"
+    />
+    <!-- 영화 제목 -->
     <h3>{{ movie.title }}</h3>
-    <!-- 하트 아이콘 -->
-    <button class="favorite-btn" @click="toggleFavorite">
-      <i :class="isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+    <!-- 찜 버튼 -->
+    <button class="favorite-btn" @click.stop="toggleFavorite">
+      {{ isFavorite ? "찜 취소" : "찜하기" }}
     </button>
   </div>
 </template>
@@ -19,7 +26,6 @@ export default {
     };
   },
   mounted() {
-    // Local Storage에서 초기 상태 확인
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
     this.isFavorite = savedFavorites.some((fav) => fav.id === this.movie.id);
   },
@@ -27,15 +33,18 @@ export default {
     toggleFavorite() {
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
       if (this.isFavorite) {
-        // 이미 찜한 경우 제거
         const updatedFavorites = favorites.filter((fav) => fav.id !== this.movie.id);
         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       } else {
-        // 찜하지 않은 경우 추가
         favorites.push(this.movie);
         localStorage.setItem("favorites", JSON.stringify(favorites));
       }
-      this.isFavorite = !this.isFavorite; // 상태 업데이트
+      this.isFavorite = !this.isFavorite;
+      window.dispatchEvent(new Event("wishlist-updated"));
+    },
+    goToDetails() {
+      // 영화 상세 페이지로 이동
+      this.$router.push({ name: "MovieDetail", params: { id: this.movie.id } });
     },
   },
 };
@@ -46,25 +55,23 @@ export default {
   position: relative;
   width: 200px;
   margin: 10px;
+  text-align: center;
 }
 .movie-card img {
   width: 100%;
   border-radius: 8px;
+  cursor: pointer;
 }
 .favorite-btn {
   position: absolute;
-  top: 10px;
+  top: -20px;
   right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: red;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
   cursor: pointer;
-}
-.favorite-btn .fas {
-  color: red;
-}
-.favorite-btn .far {
-  color: gray;
 }
 </style>

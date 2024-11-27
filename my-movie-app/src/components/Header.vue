@@ -29,10 +29,12 @@ export default {
   background-color: #111;
   color: white;
   padding: 10px 20px;
+  text-decoration: none; /* 밑줄 제거 */
 }
 nav {
   display: flex;
   gap: 15px;
+  text-decoration: none; /* 밑줄 제거 */
 }
 nav a {
   color: white;
@@ -40,6 +42,7 @@ nav a {
 }
 nav a:hover {
   text-decoration: underline;
+  text-decoration: none; /* 밑줄 제거 */
 }
 .user-icon {
   cursor: pointer;
