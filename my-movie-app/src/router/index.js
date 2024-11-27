@@ -22,4 +22,14 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  if (to.path !== "/signin" && !isLoggedIn) {
+    next("/signin"); // 로그인 페이지로 리다이렉트
+  } else {
+    next(); // 허용
+  }
+});
+
+
 export default router;

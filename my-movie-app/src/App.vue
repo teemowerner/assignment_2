@@ -7,6 +7,9 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+
 
 export default {
   name: "App",
@@ -22,7 +25,7 @@ body {
   background-color: #121212; /* 원하는 배경색 */
   color: white; /* 텍스트를 하얀색으로 */
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 </style>
